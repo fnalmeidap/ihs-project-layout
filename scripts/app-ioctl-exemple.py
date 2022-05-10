@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+# PLACA 02
+
 import os, sys
 from fcntl import ioctl
 from ioctl_cmds import *
@@ -12,22 +14,16 @@ if len(sys.argv) < 2:
 fd = os.open(sys.argv[1], os.O_RDWR)
 
 hex_map = {
-    0:0x0,
-    1:0x1,
-    2:0x2,
-    3:0x3,
-    4:0x4,
-    5:0x5,
-    6:0x6,
-    7:0x7,
-    8:0x8,
-    9:0x9,
-    10:0xA,
-    11:0xB,
-    12:0xC,
-    13:0xD,
-    14:0xE,
-    15:0xF
+    0:0xFFFFFFC0,
+    1:0xFFFFFFF9,
+    2:0xFFFFFFA4,
+    3:0xFFFFFFB0,
+    4:0xFFFFFF99,
+    5:0xFFFFFF92,
+    6:0xFFFFFF82,
+    7:0xFFFFFFF8,
+    8:0xFFFFFF80,
+    9:0xFFFFFF90
 }
 
 def write_on_display(current_value, first = 0, second = 0, third = 0, fourth = 0):
