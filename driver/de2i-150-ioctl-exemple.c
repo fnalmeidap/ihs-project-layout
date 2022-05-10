@@ -85,6 +85,8 @@ static void* display_r = NULL;
 static void* display_l = NULL;
 static void* switches = NULL;
 static void* p_buttons = NULL;
+static void* green_leds = NULL;
+static void* red_leds = NULL;
 
 static void* read_pointer = NULL;
 static void* write_pointer = NULL;
@@ -239,12 +241,22 @@ static long int my_ioctl(struct file*, unsigned int cmd, unsigned long arg)
 		break;
 	case WR_L_DISPLAY:
 		write_pointer = display_l;
-		write_name_index = 2 + 0;
+		write_name_index = 2;
 		printk("my_driver: updated write pointer to %s\n", perf_names[write_name_index]);
 		break;
 	case WR_R_DISPLAY:
 		write_pointer = display_r;
-		write_name_index = 2 + 1;
+		write_name_index = 3;
+		printk("my_driver: updated write pointer to %s\n", perf_names[write_name_index]);
+		break;
+	case WR_GREEN_LEDS:
+		write_pointer = green_leds;
+		write_name_index = 4;
+		printk("my_driver: updated write pointer to %s\n", perf_names[write_name_index]);
+		break;	
+	case WR_RED_LEDS:
+		write_pointer = red_leds;
+		write_name_index = 5;
 		printk("my_driver: updated write pointer to %s\n", perf_names[write_name_index]);
 		break;
 	default:
@@ -270,10 +282,12 @@ static int my_pci_probe(struct pci_dev *dev, const struct pci_device_id *id)
 	resource = pci_resource_start(dev, 0);
 	printk("my_driver: PCI device resources start at bar 0: 0x%lx\n", resource);
 	
+	switches = ioremap(resource + 0xC020, 0x20);
+	display_l = ioremap(resource + 0xC040, 0x20);
 	display_r = ioremap(resource + 0xC000, 0x20);
-	display_l = ioremap(resource + 0xC140, 0x20);
-	switches = ioremap(resource + 0xC040, 0x20);
-	p_buttons = ioremap(resource + 0xC080, 0x20);
+	p_buttons = ioremap(resource + 0xC0a0, 0x20);
+	red_leds = ioremap(resource + 0xC060, 0x20);
+	green_leds = ioremap(resource + 0xC080, 0x20);
 
 	read_pointer = switches; // default read peripheral pointer
 	write_pointer = display_r; // default write peripheral pointer
@@ -290,5 +304,7 @@ static void my_pci_remove(struct pci_dev *dev)
 	iounmap(display_l);
 	iounmap(switches);
 	iounmap(p_buttons);
+	iounmap(red_leds);
+	iounmap(green_leds);
 	pci_disable_device(dev);
 }
