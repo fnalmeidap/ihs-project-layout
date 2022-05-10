@@ -11,11 +11,29 @@ if len(sys.argv) < 2:
 
 fd = os.open(sys.argv[1], os.O_RDWR)
 
+hex_map = {
+    1:0x1,
+    2:0x2,
+    3:0x3,
+    4:0x4,
+    5:0x5,
+    6:0x6,
+    7:0x7,
+    8:0x8,
+    9:0x9,
+    10:0xA,
+    11:0xB,
+    12:0xC,
+    13:0xD,
+    14:0xE,
+    15:0xF
+}
+
 def write_on_display(current_value, first = 0, second = 0, third = 0, fourth = 0):
-    first = hex(first)
-    second = hex(second)
-    third = hex(third)
-    fourth = hex(fourth)
+    first = hex_map[first]
+    second = hex_map[second]
+    third = hex_map[third]
+    fourth = hex_map[fourth]
     
     # alter the first 7-seg-display
     current_value = first << 24 | (data & 0xFFFFFF)
