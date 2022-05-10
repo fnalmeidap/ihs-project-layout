@@ -13,20 +13,20 @@ if len(sys.argv) < 2:
 
 fd = os.open(sys.argv[1], os.O_RDWR)
 
-hex_map = {
-    0:0xFFFFFFC0,
-    1:0xFFFFFFF9,
-    2:0xFFFFFFA4,
-    3:0xFFFFFFB0,
-    4:0xFFFFFF99,
-    5:0xFFFFFF92,
-    6:0xFFFFFF82,
-    7:0xFFFFFFF8,
-    8:0xFFFFFF80,
-    9:0xFFFFFF90
-}
-
 def write_on_display(current_value, first = 0, second = 0, third = 0, fourth = 0):
+    hex_map = {
+        0:0x40,
+        1:0x79,
+        2:0xFFFFFFA4,
+        3:0x30,
+        4:0x19,
+        5:0x12,
+        6:0x2,
+        7:0x78,
+        8:0x0,
+        9:0x10
+    }
+    
     first = hex_map[first]
     second = hex_map[second]
     third = hex_map[third]
