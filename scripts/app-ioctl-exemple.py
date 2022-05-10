@@ -18,7 +18,7 @@ def write_on_display(current_value, first = 0, second = 0, third = 0, fourth = 0
     fourth = hex(fourth)
     
     # alter the first 7-seg-display
-    current_value = << 24 | | (data & 0xFFFFFF)
+    current_value = first << 24 | (data & 0xFFFFFF)
 
     return current_value
 
