@@ -11,14 +11,31 @@ if len(sys.argv) < 2:
 
 fd = os.open(sys.argv[1], os.O_RDWR)
 
+def write_on_display(current_value, first = 0, second = 0, third = 0, fourth = 0):
+    first = hex(first)
+    second = hex(second)
+    third = hex(third)
+    fourth = hex(fourth)
+    
+    # alter the first 7-seg-display
+    current_value = << 24 | | (data & 0xFFFFFF)
+
+    return current_value
+
 # data to write
-data = 0x40404079;
+# utl = 0x24
+
+data = 0x40404079
+data = write_on_display(data, first=5)
+# data = utl << 24 | (data & 0xFFFFFF)
+
 ioctl(fd, WR_R_DISPLAY)
 retval = os.write(fd, data.to_bytes(4, 'little'))
 print("wrote %d bytes"%retval)
 
 # data to write
-data = 0x79404040;
+data = 0x79404040
+
 ioctl(fd, WR_L_DISPLAY)
 retval = os.write(fd, data.to_bytes(4, 'little'))
 print("wrote %d bytes"%retval)
