@@ -13,20 +13,20 @@ if len(sys.argv) < 2:
 
 fd = os.open(sys.argv[1], os.O_RDWR)
 
-def write_on_display(current_value, first = 0, second = 0, third = 0, fourth = 0):
-    hex_map = {
-        0:0x40,
-        1:0x79,
-        2:0x24,
-        3:0x30,
-        4:0x19,
-        5:0x12,
-        6:0x2,
-        7:0x78,
-        8:0x0,
-        9:0x10
-    }
+hex_map = {
+    0:0x40,
+    1:0x79,
+    2:0x24,
+    3:0x30,
+    4:0x19,
+    5:0x12,
+    6:0x2,
+    7:0x78,
+    8:0x0,
+    9:0x10
+}
 
+def set_display(current_value, first = 0, second = 0, third = 0, fourth = 0):
     first = hex_map[first]
     second = hex_map[second]
     third = hex_map[third]
@@ -48,15 +48,9 @@ def write_on_display(current_value, first = 0, second = 0, third = 0, fourth = 0
 
     return current_value
 
-# data to write
-
-# 
-
-# utl = 0x24
 
 data = 0x40404079
-data = write_on_display(data, first=5)
-# data = utl << 24 | (data & 0xFFFFFF)
+data = set_display(data, 2, 0, 2, 2)
 
 ioctl(fd, WR_R_DISPLAY)
 retval = os.write(fd, data.to_bytes(4, 'little'))
@@ -64,6 +58,7 @@ print("wrote %d bytes"%retval)
 
 # data to write
 data = 0x79404040
+data = set_display(data, 2, 0, 4, 0)
 
 ioctl(fd, WR_L_DISPLAY)
 retval = os.write(fd, data.to_bytes(4, 'little'))
