@@ -33,20 +33,23 @@ def write_on_display(current_value, first = 0, second = 0, third = 0, fourth = 0
     fourth = hex_map[fourth]
     
     # alter the first 7-seg-display
-    current_value = first << 24 | (data & 0xFFFFFF)
-
+    current_value = first | data
+    
     # alter the second 7-seg-display
-    current_value = second << 16 | (data & 0xFFFF)
+    current_value = second << 8 | (data & 0xFF)
 
     # alter the third 7-seg-display
-    current_value = third << 8 | (data & 0xFF)
+    current_value = third << 16 | (data & 0xFFFF)
 
     # alter the fourth 7-seg-display
-    current_value = fourth | data
+    current_value = fourth << 24 | (data & 0xFFFFFF)
 
     return current_value
 
 # data to write
+
+# 
+
 # utl = 0x24
 
 data = 0x40404079
