@@ -17,7 +17,7 @@ def write_on_display(current_value, first = 0, second = 0, third = 0, fourth = 0
     hex_map = {
         0:0x40,
         1:0x79,
-        2:0xFFFFFFA4,
+        2:0x24,
         3:0x30,
         4:0x19,
         5:0x12,
@@ -26,7 +26,7 @@ def write_on_display(current_value, first = 0, second = 0, third = 0, fourth = 0
         8:0x0,
         9:0x10
     }
-    
+
     first = hex_map[first]
     second = hex_map[second]
     third = hex_map[third]
@@ -34,6 +34,15 @@ def write_on_display(current_value, first = 0, second = 0, third = 0, fourth = 0
     
     # alter the first 7-seg-display
     current_value = first << 24 | (data & 0xFFFFFF)
+
+    # alter the second 7-seg-display
+    current_value = second << 16 | (data & 0xFFFF)
+
+    # alter the third 7-seg-display
+    current_value = third << 8 | (data & 0xFF)
+
+    # alter the fourth 7-seg-display
+    current_value = fourth | data
 
     return current_value
 
