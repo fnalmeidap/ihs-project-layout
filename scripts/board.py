@@ -113,7 +113,7 @@ board.set_display(side ="left", d1 = 1, d2 = 1, d3 = 1, d4 = 1)
 red_leds_dict = { 0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0, 16:0, 17:1 }
 board.set_red_led(red_leds_dict)
 
-green_leds_dict = { 0:1, 1:0, 2:1, 3:0, 4:0, 5:0, 6:0: 7:1, 8:1 }
+green_leds_dict = { 0:1, 1:0, 2:1, 3:0, 4:0, 5:0, 6:0, 7:1, 8:1 }
 board.set_green_led(green_leds_dict)
 
 ioctl(fd, RD_PBUTTONS)
