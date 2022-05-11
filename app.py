@@ -60,8 +60,8 @@ hit_ball.shape("circle")
 hit_ball.color(ball_color)
 hit_ball.penup()
 hit_ball.goto(0, 0)
-hit_ball.dx = 5
-hit_ball.dy = -5
+hit_ball.dx = 6
+hit_ball.dy = -6
 
 
 # Initialize the score
@@ -142,11 +142,11 @@ while True:
 	if switches[0]:
 		setlcircle()
 	else:
-		setlsquare
+		setlsquare()
 	if switches[1]:
 		setrcircle()
 	else:
-		setrsquare
+		setrsquare()
 
 	if pbuttons[0]:  #DESCE A
 		paddleadown()
