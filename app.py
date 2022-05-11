@@ -118,7 +118,7 @@ board.set_display("right", d1 = displays["d1"], d2 = displays["d2"], d3 = displa
 
 while True:
 	sc.update()
-	pbuttons=board.get_pbutton()
+	pbuttons=board.get_pbuttons()
 	if pbuttons[0] == True:  #DESCE A
 		paddleadown()
 	if pbuttons[1] == True:  #SOBE A
