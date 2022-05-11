@@ -103,7 +103,7 @@ class DE2i:
         self.__c_state["green_led"] = setting
 
     def get_leds(self, color = "red"):
-        return self.__c_state[f'{color}_leds']
+        return self.__c_state[f'{color}_led']
 
     def get_pbuttons(self):
         ioctl(self.__file, RD_PBUTTONS)
