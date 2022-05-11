@@ -1,14 +1,8 @@
 import os, sys
 from fcntl import ioctl
-from .scripts.ioctl_cmds import *
-from .scripts.board import DE2i
+from script.board import DE2i
 
-if len(sys.argv) < 2:
-    print("Error: expected more command line arguments")
-    print("Syntax: %s </dev/device_file>"%sys.argv[0])
-    exit(1)
-
-fd = os.open(sys.argv[1], os.O_RDWR)
+fd = os.open("/dev/mydev", os.O_RDWR)
 
 board = DE2i(fd)
 

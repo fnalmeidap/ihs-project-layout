@@ -2,6 +2,13 @@
 
 # PLACA 02
 
+RD_SWITCHES = 24929
+RD_PBUTTONS = 24930
+WR_L_DISPLAY = 24931
+WR_R_DISPLAY = 24932
+WR_RED_LEDS = 24933
+WR_GREEN_LEDS = 24934
+
 class DE2i:
     def __init__(self, file) -> None:
         self.__file = file
@@ -47,11 +54,11 @@ class DE2i:
         current_value = fourth | current_value
 
         if side == "left":
-            ioctl(fd, WR_L_DISPLAY)
+            ioctl(self.__file, WR_L_DISPLAY)
             retval = os.write(self.__file, current_value.to_bytes(4, 'little'))
             print("wrote %d bytes"%retval)
         elif side == "right":
-            ioctl(fd, WR_R_DISPLAY)
+            ioctl(self.__file, WR_R_DISPLAY)
             retval = os.write(self.__file, current_value.to_bytes(4, 'little'))
             print("wrote %d bytes"%retval)
         else:
@@ -69,8 +76,8 @@ class DE2i:
             elif value == 1:
                 setting = 1 << bit_position | setting
 
-        ioctl(fd, WR_RED_LEDS)
-        retval = os.write(fd, setting.to_bytes(4, 'little'))
+        ioctl(self.__file, WR_RED_LEDS)
+        retval = os.write(self.__file, setting.to_bytes(4, 'little'))
         print("wrote %d bytes"%retval)
 
 
@@ -83,14 +90,14 @@ class DE2i:
             elif value == 1:
                 setting = 1 << bit_position | setting
         
-        ioctl(fd, WR_GREEN_LEDS)
-        retval = os.write(fd, setting.to_bytes(4, 'little'))
+        ioctl(self.__file, WR_GREEN_LEDS)
+        retval = os.write(self.__file, setting.to_bytes(4, 'little'))
         print("wrote %d bytes"%retval)
 
 
     def get_pbuttons(self):
-        ioctl(fd, RD_PBUTTONS)
-        c_setting = os.read(fd,4)
+        ioctl(self.__file, RD_PBUTTONS)
+        c_setting = os.read(self.__file,4)
         c_setting = int.from_bytes(c_setting, 'little')
 
         push_buttons = [0, 0, 0, 0]
@@ -105,8 +112,8 @@ class DE2i:
     
 
     def get_switches(self):
-        ioctl(fd, RD_SWITCHES)
-        c_setting = os.read(fd, 4)
+        ioctl(self.__file, RD_SWITCHES)
+        c_setting = os.read(self.__file, 4)
         c_setting = int.from_bytes(c_setting, 'little')
 
         switches = [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
