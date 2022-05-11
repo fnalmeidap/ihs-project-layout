@@ -208,10 +208,10 @@ while True:
 		red_leds_dict[i] = 1
 
 	for i in range(0, right_player):
-		green_leds_dict[i] = 1
+		red_leds_dict[17 - i] = 1
 
 	board.set_red_led(red_leds_dict)
-	board.set_green_led(green_leds_dict)
+
 	
 
 	# Paddle ball collision
