@@ -71,7 +71,10 @@ class DE2i:
         self.__c_state[f'{side}_display'] = current_value
 
     def set_red_led(self): 
-        raise NotImplementedError
+        red_led = 0
+        ioctl(fd, WR_RED_LEDS)
+        retval = os.write(fd, red_led.to_bytes(4, 'little'))
+        print("wrote %d bytes"%retval)
 
     def set_green_led(self):
         raise NotImplementedError
@@ -86,6 +89,7 @@ class DE2i:
 
 board = DE2i(fd)
 board.set_display(side ="left", d1 = 1, d2 = 1, d3 = 1, d4 = 1)
+board.set_red_led()
 
 ioctl(fd, RD_PBUTTONS)
 red = os.read(fd, 4); # read 4 bytes and store in red var
