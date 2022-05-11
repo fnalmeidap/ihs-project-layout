@@ -144,6 +144,7 @@ while True:
 			time.sleep(1)
 			green_leds_dict = { 0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0 }
 			board.set_green_led(green_leds_dict)
+			time.sleep(1)
 
 
 	# Generate vectors
