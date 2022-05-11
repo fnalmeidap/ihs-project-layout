@@ -70,10 +70,17 @@ class DE2i:
 
         self.__c_state[f'{side}_display'] = current_value
 
-    def set_red_led(self): 
-        red_led = 0
+    def set_red_led(self, leds_dict): 
+        setting = 0x0
+
+        for bit_position, value in leds_dict
+            if value == 0:
+                setting = mask << bit_position & 0
+            elif value == 1:
+                setting = mask << bit_position | 1
+
         ioctl(fd, WR_RED_LEDS)
-        retval = os.write(fd, red_led.to_bytes(4, 'little'))
+        retval = os.write(fd, setting.to_bytes(4, 'little'))
         print("wrote %d bytes"%retval)
 
     def set_green_led(self):
@@ -89,7 +96,9 @@ class DE2i:
 
 board = DE2i(fd)
 board.set_display(side ="left", d1 = 1, d2 = 1, d3 = 1, d4 = 1)
-board.set_red_led()
+
+leds_dict = { 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0, 16:0, 17:0 }
+board.set_red_led(leds_dict)
 
 ioctl(fd, RD_PBUTTONS)
 red = os.read(fd, 4); # read 4 bytes and store in red var
