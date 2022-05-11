@@ -118,8 +118,6 @@ class DE2i:
             else:
                 push_buttons[3 - bit_position] = True # apertado
 
-        print("Push buttons:", push_buttons)
-
         self.__c_state["push_buttons"] = push_buttons
         
         return push_buttons
@@ -136,8 +134,6 @@ class DE2i:
                 switches[17 - bit_position] = True # para cima
             else:
                 switches[17 - bit_position] = False # para baixo
-
-        print("Switches:", switches)
 
         self.__c_state["switches"] = switches
 
