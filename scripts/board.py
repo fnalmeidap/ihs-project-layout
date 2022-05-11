@@ -107,11 +107,11 @@ class DE2i:
 
         push_buttons = [0, 0, 0, 0]
 
-        for bit_position in range(0, 4, -1):
+        for bit_position in range(0, 4):
             if ((1 << bit_position) & c_setting) > 0:
-                push_buttons[bit_position] = True # apertado
+                push_buttons[bit_position] = False # apertado
             else:
-                push_buttons[bit_position] = False # não apertado
+                push_buttons[bit_position] = True # não apertado
 
         print(push_buttons)
     
