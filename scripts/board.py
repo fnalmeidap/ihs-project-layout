@@ -100,7 +100,18 @@ class DE2i:
 
 
     def get_pbuttons(self):
-        raise NotImplementedError
+        ioctl(fd, RD_PBUTTONS)
+        c_setting = os.read(fd,4)
+
+        push_buttons = [0, 0, 0, 0]
+
+        for bit_position in range(0, 4):
+            if ((1 << bit_position) & c_setting) == 1:
+                push_buttons[bit_position] = True # apertado
+            else:
+                push_buttons[bit_position] = False # não apertado
+
+        print(push_buttons)
     
     def get_switches(self):
         raise NotImplementedError   
