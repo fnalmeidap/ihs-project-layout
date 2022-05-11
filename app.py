@@ -1,6 +1,6 @@
 import os, sys
 from fcntl import ioctl
-from script.board import DE2i
+from scripts.board import DE2i
 
 fd = os.open("/dev/mydev", os.O_RDWR)
 
