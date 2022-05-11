@@ -103,6 +103,23 @@ def paddlebdown():
 	y -= 20
 	right_pad.sety(y)
 
+# Paddle shapes
+def setlsquare():
+	switch_1 = False
+	left_pad.shape("square")
+
+def setlcircle():
+	switch_1 = True
+	left_pad.shape("circle")
+
+def setrsquare():
+	switch_2 = False
+	right_pad.shape("square")
+
+def setrcircle():
+	switch_2 = True
+	right_pad.shape("circle")
+
 # Keyboard bindings
 sc.listen()
 sc.onkey(paddleaup, "w")
@@ -118,14 +135,26 @@ board.set_display("right", d1 = displays["d1"], d2 = displays["d2"], d3 = displa
 
 while True:
 	sc.update()
+	# Generate vectors
 	pbuttons=board.get_pbuttons()
-	if pbuttons[0] == True:  #DESCE A
+	switches=board.get_switches()
+
+	if switches[0]:
+		setlcircle()
+	else:
+		setlsquare
+	if switches[1]:
+		setrcircle()
+	else:
+		setrsquare
+
+	if pbuttons[0]:  #DESCE A
 		paddleadown()
-	if pbuttons[1] == True:  #SOBE A
+	if pbuttons[1]:  #SOBE A
 		paddleaup()
-	if pbuttons[2] == True:  #DESCE B
+	if pbuttons[2]:  #DESCE B
 		paddlebdown()
-	if pbuttons[3] == True:  #SOBE B
+	if pbuttons[3]:  #SOBE B
 		paddlebup()
 
 	hit_ball.setx(hit_ball.xcor()+hit_ball.dx)
@@ -174,11 +203,11 @@ while True:
 
 	# Paddle ball collision
 	if (hit_ball.xcor() > 360 and
-						hit_ball.xcor() < 370) and (hit_ball.ycor() < right_pad.ycor()+80 and hit_ball.ycor() > right_pad.ycor()-80):
+						hit_ball.xcor() < 370) and (hit_ball.ycor() < right_pad.ycor()+100 and hit_ball.ycor() > right_pad.ycor()-100):
 		hit_ball.setx(360)
 		hit_ball.dx*=-1
 		
-	if (hit_ball.xcor()<-360 and hit_ball.xcor()>-370) and (hit_ball.ycor()<left_pad.ycor()+80 and hit_ball.ycor()>left_pad.ycor()-80):
+	if (hit_ball.xcor()<-360 and hit_ball.xcor()>-370) and (hit_ball.ycor()<left_pad.ycor()+100 and hit_ball.ycor()>left_pad.ycor()-100):
 		hit_ball.setx(-360)
 		hit_ball.dx*=-1
 
