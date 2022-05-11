@@ -57,11 +57,11 @@ class DE2i:
         # alter the fourth 7-seg-display
         current_value = fourth | current_value
 
-        if side is "left":
+        if side == "left":
             ioctl(fd, WR_L_DISPLAY)
             retval = os.write(self.__file, current_value.to_bytes(4, 'little'))
             print("wrote %d bytes"%retval)
-        elif side is "right":
+        elif side == "right":
             ioctl(fd, WR_R_DISPLAY)
             retval = os.write(self.__file, current_value.to_bytes(4, 'little'))
             print("wrote %d bytes"%retval)
