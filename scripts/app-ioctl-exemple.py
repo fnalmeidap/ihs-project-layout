@@ -72,7 +72,7 @@ class DE2i:
 
 
 board = DE2i(fd)
-board.set_display("left", first = 1, second = 1, third = 1, fourth = 1)
+board.set_display("left", d1 = 1, d2 = 1, d3 = 1, d4 = 1)
 
 ioctl(fd, RD_PBUTTONS)
 red = os.read(fd, 4); # read 4 bytes and store in red var
