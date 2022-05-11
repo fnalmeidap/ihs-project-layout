@@ -103,20 +103,33 @@ class DE2i:
         ioctl(fd, RD_PBUTTONS)
         c_setting = os.read(fd,4)
         c_setting = int.from_bytes(c_setting, 'little')
-        print(c_setting)
 
         push_buttons = [0, 0, 0, 0]
 
         for bit_position in range(0, 4):
             if ((1 << bit_position) & c_setting) > 0:
-                push_buttons[3 - bit_position] = False # apertado
+                push_buttons[3 - bit_position] = False # não apertado
             else:
-                push_buttons[3 - bit_position] = True # não apertado
+                push_buttons[3 - bit_position] = True # apertado
 
-        print(push_buttons)
+        print("Push buttons", push_buttons)
     
+
     def get_switches(self):
-        raise NotImplementedError   
+        ioctl(fd, RD_SWITCHES)
+        c_setting = os.read(fd, 4)
+        c_setting = int.from_bytes(c_setting, 'little')
+
+        switches = [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+
+        for bit_position in range(0, 18):
+            if ((1 << bit_position) & c_setting) > 0:
+                switches[17 - bit_position] = False # para baixo
+            else:
+                switches[17 - bit_position] = True # para cima
+
+        print("Switches:", switches)
+
     
 
 
@@ -130,5 +143,7 @@ green_leds_dict = { 0:1, 1:0, 2:1, 3:0, 4:0, 5:0, 6:0, 7:1, 8:1 }
 board.set_green_led(green_leds_dict)
 
 board.get_pbuttons()
+
+board.get_switches()
 
 os.close(fd)
