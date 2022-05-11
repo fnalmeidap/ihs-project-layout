@@ -112,7 +112,7 @@ class DE2i:
             else:
                 push_buttons[3 - bit_position] = True # apertado
 
-        print("Push buttons", push_buttons)
+        print("Push buttons:", push_buttons)
     
 
     def get_switches(self):
@@ -129,8 +129,6 @@ class DE2i:
                 switches[17 - bit_position] = False # para baixo
 
         print("Switches:", switches)
-
-    
 
 
 board = DE2i(fd)
