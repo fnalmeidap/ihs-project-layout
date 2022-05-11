@@ -140,10 +140,10 @@ while True:
 	if left_player >= 2 or right_player >= 2:
 		while True:
 			green_leds_dict = { 0:1, 1:1, 2:1, 3:1, 4:1, 5:1, 6:1, 7:1, 8:1 }
-			board.set_green_leds(green_leds_dict)
+			board.set_green_led(green_leds_dict)
 			time.sleep(1)
 			green_leds_dict = { 0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0 }
-			board.set_green_leds(green_leds_dict)
+			board.set_green_led(green_leds_dict)
 
 
 	# Generate vectors
