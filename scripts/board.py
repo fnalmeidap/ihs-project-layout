@@ -70,7 +70,6 @@ class DE2i:
 
         self.__c_state[f'{side}_display'] = current_value
 
-    
 
     def set_red_led(self, leds_dict): 
         setting = 0
@@ -85,8 +84,20 @@ class DE2i:
         retval = os.write(fd, setting.to_bytes(4, 'little'))
         print("wrote %d bytes"%retval)
 
-    def set_green_led(self):
-        raise NotImplementedError
+
+    def set_green_led(self, leds_dict):
+        setting = 0
+        
+        for bit_position, value in leds_dict.items():
+            if value == 0:
+                setting = ~(1 <<  bit_position) & setting
+            elif value == 1:
+                setting = 1 << bit_position | setting
+        
+        ioctl(fd, WR_GREEN_LEDS)
+        retval = os.write(fd, setting.to_bytes(4, 'little'))
+        print("wrote %d bytes"%retval)
+
 
     def get_pbuttons(self):
         raise NotImplementedError
@@ -99,8 +110,11 @@ class DE2i:
 board = DE2i(fd)
 board.set_display(side ="left", d1 = 1, d2 = 1, d3 = 1, d4 = 1)
 
-leds_dict = { 0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0, 16:0, 17:1 }
-board.set_red_led(leds_dict)
+red_leds_dict = { 0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0, 16:0, 17:1 }
+board.set_red_led(red_leds_dict)
+
+green_leds_dict = { 0:1, 1:0, 2:1, 3:0, 4:0, 5:0, 6:0: 7:1, 8:1 }
+board.set_green_led(green_leds_dict)
 
 ioctl(fd, RD_PBUTTONS)
 red = os.read(fd, 4); # read 4 bytes and store in red var
