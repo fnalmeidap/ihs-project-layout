@@ -187,7 +187,7 @@ while True:
 		hit_ball.goto(0, 0)
 		hit_ball.dy *= -1
 		left_player += 1
-		board.set_display("left", d1=0, d2=left_player)
+		board.set_display("left", d1=0, d2=left_player, d3=0, d4=right_player)
 		sketch.clear()
 		sketch.write("Left_player : {} Right_player: {}".format(
 					left_player, right_player), align="center",
@@ -197,7 +197,7 @@ while True:
 		hit_ball.goto(0, 0)
 		hit_ball.dy *= -1
 		right_player += 1
-		board.set_display("left", d3=0, d4=right_player)
+		board.set_display("left", d1=0, d2=left_player, d3=0, d4=right_player)
 		sketch.clear()
 		sketch.write("Left_player : {} Right_player: {}".format(
 								left_player, right_player), align="center",
