@@ -1,8 +1,8 @@
-from app-ioctl-example import DE2i
-
 import os, sys
+
 from fcntl import ioctl
 from ioctl_cmds import *
+from board import DE2i
 
 if __name__ == "__main__":
 
