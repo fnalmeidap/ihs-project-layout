@@ -70,6 +70,19 @@ class DE2i:
 
         self.__c_state[f'{side}_display'] = current_value
 
+    def set_red_led(self): 
+        raise NotImplementedError
+
+    def set_green_led(self):
+        raise NotImplementedError
+
+    def get_pbuttons(self):
+        raise NotImplementedError
+    
+    def get_switches(self):
+        raise NotImplementedError   
+    
+
 
 board = DE2i(fd)
 board.set_display(side ="left", d1 = 1, d2 = 1, d3 = 1, d4 = 1)
