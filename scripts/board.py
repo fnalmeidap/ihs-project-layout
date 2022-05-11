@@ -18,8 +18,8 @@ class DE2i:
         self.__c_state = {
             "left_display": 0x0,
             "right_display": 0x0,
-            "switches": 0x0,
-            "push_buttons": 0x0,
+            "switches": [],
+            "push_buttons": [],
             "red_led": 0x0,
             "green_led": 0x0,
         }
@@ -36,7 +36,7 @@ class DE2i:
             9:0x10
         }
     
-    def set_display(self, side = "", d1 = 0, d2 = 0, d3 = 0, d4 = 0):
+    def set_display(self, side = "left", d1 = 0, d2 = 0, d3 = 0, d4 = 0):
         first = self.__hex_map[d1]
         second = self.__hex_map[d2]
         third = self.__hex_map[d3]
@@ -69,6 +69,8 @@ class DE2i:
 
         self.__c_state[f'{side}_display'] = current_value
 
+    def get_display(self, side = "left"):
+        return self.__c_state[f'{side}_display']
 
     def set_red_led(self, leds_dict): 
         setting = 0
@@ -83,6 +85,7 @@ class DE2i:
         retval = os.write(self.__file, setting.to_bytes(4, 'little'))
         print("wrote %d bytes"%retval)
 
+        self.__c_state["red_led"] = setting
 
     def set_green_led(self, leds_dict):
         setting = 0
@@ -97,6 +100,10 @@ class DE2i:
         retval = os.write(self.__file, setting.to_bytes(4, 'little'))
         print("wrote %d bytes"%retval)
 
+        self.__c_state["green_led"] = setting
+
+    def get_leds(self, color = "red"):
+        return self.__c_state[f'{color}_leds']
 
     def get_pbuttons(self):
         ioctl(self.__file, RD_PBUTTONS)
@@ -112,8 +119,11 @@ class DE2i:
                 push_buttons[3 - bit_position] = True # apertado
 
         print("Push buttons:", push_buttons)
-    
 
+        self.__c_state["push_buttons"] = push_buttons
+        
+        return push_buttons
+    
     def get_switches(self):
         ioctl(self.__file, RD_SWITCHES)
         c_setting = os.read(self.__file, 4)
@@ -128,3 +138,7 @@ class DE2i:
                 switches[17 - bit_position] = False # para baixo
 
         print("Switches:", switches)
+
+        self.__c_state["switches"] = switches
+
+        return switches
