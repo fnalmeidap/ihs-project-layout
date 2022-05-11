@@ -6,13 +6,6 @@ import os, sys
 from fcntl import ioctl
 from ioctl_cmds import *
 
-if len(sys.argv) < 2:
-    print("Error: expected more command line arguments")
-    print("Syntax: %s </dev/device_file>"%sys.argv[0])
-    exit(1)
-
-fd = os.open(sys.argv[1], os.O_RDWR)
-
 class DE2i:
     def __init__(self, file) -> None:
         self.__file = file
@@ -37,11 +30,11 @@ class DE2i:
             9:0x10
         }
     
-    def set_display(side = "", d1 = 0, d2 = 0, d3 = 0, d4 = 0):
-        first = hex_map[d1]
-        second = hex_map[d2]
-        third = hex_map[d3]
-        fourth = hex_map[d4]
+    def set_display(self, side = "", d1 = 0, d2 = 0, d3 = 0, d4 = 0):
+        first = self.__hex_map[d1]
+        second = self.__hex_map[d2]
+        third = self.__hex_map[d3]
+        fourth = self.__hex_map[d4]
 
         current_value = 0
         
@@ -72,7 +65,7 @@ class DE2i:
 
 
 board = DE2i(fd)
-board.set_display("left", d1 = 1, d2 = 1, d3 = 1, d4 = 1)
+board.set_display(side ="left", d1 = 1, d2 = 1, d3 = 1, d4 = 1)
 
 ioctl(fd, RD_PBUTTONS)
 red = os.read(fd, 4); # read 4 bytes and store in red var
