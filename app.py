@@ -132,6 +132,7 @@ sc.onkey(paddlebdown, "Down")
 board = DE2i(fd)
 
 board.set_display("right", d1 = displays["d1"], d2 = displays["d2"], d3 = displays["d3"], d4 = displays["d4"])
+board.set_display("left", d1=0, d2=0, d3=0, d4=0)
 
 while True:
 	sc.update()
@@ -202,6 +203,16 @@ while True:
 		sketch.write("Left_player : {} Right_player: {}".format(
 								left_player, right_player), align="center",
 								font=("Courier", 24, "normal"))
+
+	for i in range(0, left_player):
+		red_leds_dict[i] = 1
+
+	for i in range(0, right_player):
+		green_leds_dict[i] = 1
+
+	board.set_red_led(red_leds_dict)
+	board.set_green_led(green_leds_dict)
+	
 
 	# Paddle ball collision
 	if (hit_ball.xcor() > 360 and
