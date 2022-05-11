@@ -126,7 +126,7 @@ while True:
 	if pbuttons[2] == True:  #DESCE B
 		paddlebdown()
 	if pbuttons[3] == True:  #SOBE B
-		paddleaup()
+		paddlebup()
 
 	hit_ball.setx(hit_ball.xcor()+hit_ball.dx)
 	hit_ball.sety(hit_ball.ycor()+hit_ball.dy)
