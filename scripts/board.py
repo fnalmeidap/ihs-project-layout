@@ -75,7 +75,7 @@ class DE2i:
     def set_red_led(self, leds_dict): 
         setting = 0
 
-        for bit_position, value in leds_dict:
+        for bit_position, value in leds_dict.items():
             if value == 0:
                 setting = ~(1 << bit_position) & setting
             elif value == 1:
