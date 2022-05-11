@@ -1,5 +1,6 @@
 import os, sys
 import turtle
+import time
 
 from operator import truediv
 from fcntl import ioctl
@@ -136,6 +137,15 @@ board.set_display("left", d1=0, d2=0, d3=0, d4=0)
 
 while True:
 	sc.update()
+	if left_player >= 2 or right_player >= 2:
+		while True:
+			green_leds_dict = { 0:1, 1:1, 2:1, 3:1, 4:1, 5:1, 6:1, 7:1, 8:1 }
+			board.set_green_leds(green_leds_dict)
+			time.sleep(1)
+			green_leds_dict = { 0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0 }
+			board.set_green_leds(green_leds_dict)
+
+
 	# Generate vectors
 	pbuttons=board.get_pbuttons()
 	switches=board.get_switches()
