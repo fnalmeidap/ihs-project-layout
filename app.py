@@ -10,7 +10,7 @@ fd = os.open("/dev/mydev", os.O_RDWR)
 ################################## BOARD SETUP ##################################
 
 displays = {"side":"right", "d1": 1, "d2":1, "d3":9, "d4": 9}
-red_leds_dict = { 0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0, 16:0, 17:1 }
+red_leds_dict = { 0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0, 16:0, 17:0 }
 green_leds_dict = { 0:1, 1:0, 2:1, 3:0, 4:0, 5:0, 6:0, 7:1, 8:1 }
 
 ############################# GAME SETUP ##########################################
@@ -205,10 +205,10 @@ while True:
 								font=("Courier", 24, "normal"))
 
 	for i in range(0, left_player):
-		red_leds_dict[i] = 1
+		red_leds_dict[17 - i] = 1
 
 	for i in range(0, right_player):
-		red_leds_dict[17 - i] = 1
+		red_leds_dict[i] = 1
 
 	board.set_red_led(red_leds_dict)
 
