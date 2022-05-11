@@ -3,7 +3,7 @@ from operator import truediv
 import turtle
 
 screen_color = "black"
-ball_color = "red"
+ball_color = "white"
 left_paddle_color = "white"
 right_paddle_color = "white"
 
@@ -91,12 +91,32 @@ def paddlebdown():
 	y -= 20
 	right_pad.sety(y)
 
+def setlsquare():
+	switch_1 = False
+	left_pad.shape("square")
+
+def setlcircle():
+	switch_1 = True
+	left_pad.shape("circle")
+
+def setrsquare():
+	switch_2 = False
+	right_pad.shape("square")
+
+def setrcircle():
+	switch_2 = True
+	right_pad.shape("circle")
+
 # Keyboard bindings
 sc.listen()
 sc.onkey(paddleaup, "w")
 sc.onkey(paddleadown, "s")
 sc.onkey(paddlebup, "Up")
 sc.onkey(paddlebdown, "Down")
+sc.onkey(setlsquare, "r")
+sc.onkey(setlcircle, "e")
+sc.onkey(setrsquare, "l")
+sc.onkey(setrcircle, "k")
 
 while True:
 	sc.update()
@@ -106,11 +126,11 @@ while True:
 	
 	if switch_1 and left_paddle_shape == "square":
 		left_paddle_shape = "circle"
-		left_pad.shape("circle")
+		left_pad.shape(left_paddle_shape)
 	elif not switch_1 and left_paddle_shape == "circle":
 		left_paddle_shape = "square"
-		left_pad.shape("square")
-
+		left_pad.shape(left_paddle_shape)
+	
 	if switch_2 and right_paddle_shape == "square":
 		right_paddle_shape = "circle"
 		right_pad.shape("circle")
@@ -147,10 +167,10 @@ while True:
 
 	# Paddle ball collision
 	if (hit_ball.xcor() > 360 and
-						hit_ball.xcor() < 370) and (hit_ball.ycor() < right_pad.ycor()+80 and hit_ball.ycor() > right_pad.ycor()-80):
+						hit_ball.xcor() < 370) and (hit_ball.ycor() < right_pad.ycor()+100 and hit_ball.ycor() > right_pad.ycor()-100):
 		hit_ball.setx(360)
 		hit_ball.dx*=-1
 		
-	if (hit_ball.xcor()<-360 and hit_ball.xcor()>-370) and (hit_ball.ycor()<left_pad.ycor()+80 and hit_ball.ycor()>left_pad.ycor()-80):
+	if (hit_ball.xcor()<-360 and hit_ball.xcor()>-370) and (hit_ball.ycor()<left_pad.ycor()+100 and hit_ball.ycor()>left_pad.ycor()-100):
 		hit_ball.setx(-360)
 		hit_ball.dx*=-1

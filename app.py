@@ -118,15 +118,15 @@ board.set_display("right", d1 = displays["d1"], d2 = displays["d2"], d3 = displa
 
 while True:
 	sc.update()
-    pbuttons=board.get_pbutton()
-    if pbuttons[0] == True:  #DESCE A
-        paddleadown()
-    if pbuttons[1] == True:  #SOBE A
-        paddleaup()
-    if pbuttons[2] == True:  #DESCE B
-        paddlebdown()
-    if pbuttons[3] == True:  #SOBE B
-        paddleaup()
+	pbuttons=board.get_pbutton()
+	if pbuttons[0] == True:  #DESCE A
+		paddleadown()
+	if pbuttons[1] == True:  #SOBE A
+		paddleaup()
+	if pbuttons[2] == True:  #DESCE B
+		paddlebdown()
+	if pbuttons[3] == True:  #SOBE B
+		paddleaup()
 
 	hit_ball.setx(hit_ball.xcor()+hit_ball.dx)
 	hit_ball.sety(hit_ball.ycor()+hit_ball.dy)
