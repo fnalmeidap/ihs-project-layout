@@ -4,14 +4,13 @@
 
 import os, sys
 from fcntl import ioctl
-from ioctl_cmds import *
 
-if len(sys.argv) < 2:
-    print("Error: expected more command line arguments")
-    print("Syntax: %s </dev/device_file>"%sys.argv[0])
-    exit(1)
-
-fd = os.open(sys.argv[1], os.O_RDWR)
+RD_SWITCHES = 24929
+RD_PBUTTONS = 24930
+WR_L_DISPLAY = 24931
+WR_R_DISPLAY = 24932
+WR_RED_LEDS = 24933
+WR_GREEN_LEDS = 24934
 
 class DE2i:
     def __init__(self, file) -> None:
@@ -19,8 +18,8 @@ class DE2i:
         self.__c_state = {
             "left_display": 0x0,
             "right_display": 0x0,
-            "switches": 0x0,
-            "push_buttons": 0x0,
+            "switches": [],
+            "push_buttons": [],
             "red_led": 0x0,
             "green_led": 0x0,
         }
@@ -37,7 +36,7 @@ class DE2i:
             9:0x10
         }
     
-    def set_display(self, side = "", d1 = 0, d2 = 0, d3 = 0, d4 = 0):
+    def set_display(self, side = "left", d1 = 0, d2 = 0, d3 = 0, d4 = 0):
         first = self.__hex_map[d1]
         second = self.__hex_map[d2]
         third = self.__hex_map[d3]
@@ -58,11 +57,11 @@ class DE2i:
         current_value = fourth | current_value
 
         if side == "left":
-            ioctl(fd, WR_L_DISPLAY)
+            ioctl(self.__file, WR_L_DISPLAY)
             retval = os.write(self.__file, current_value.to_bytes(4, 'little'))
             print("wrote %d bytes"%retval)
         elif side == "right":
-            ioctl(fd, WR_R_DISPLAY)
+            ioctl(self.__file, WR_R_DISPLAY)
             retval = os.write(self.__file, current_value.to_bytes(4, 'little'))
             print("wrote %d bytes"%retval)
         else:
@@ -70,6 +69,8 @@ class DE2i:
 
         self.__c_state[f'{side}_display'] = current_value
 
+    def get_display(self, side = "left"):
+        return self.__c_state[f'{side}_display']
 
     def set_red_led(self, leds_dict): 
         setting = 0
@@ -80,10 +81,11 @@ class DE2i:
             elif value == 1:
                 setting = 1 << bit_position | setting
 
-        ioctl(fd, WR_RED_LEDS)
-        retval = os.write(fd, setting.to_bytes(4, 'little'))
+        ioctl(self.__file, WR_RED_LEDS)
+        retval = os.write(self.__file, setting.to_bytes(4, 'little'))
         print("wrote %d bytes"%retval)
 
+        self.__c_state["red_led"] = setting
 
     def set_green_led(self, leds_dict):
         setting = 0
@@ -94,14 +96,18 @@ class DE2i:
             elif value == 1:
                 setting = 1 << bit_position | setting
         
-        ioctl(fd, WR_GREEN_LEDS)
-        retval = os.write(fd, setting.to_bytes(4, 'little'))
+        ioctl(self.__file, WR_GREEN_LEDS)
+        retval = os.write(self.__file, setting.to_bytes(4, 'little'))
         print("wrote %d bytes"%retval)
 
+        self.__c_state["green_led"] = setting
+
+    def get_leds(self, color = "red"):
+        return self.__c_state[f'{color}_led']
 
     def get_pbuttons(self):
-        ioctl(fd, RD_PBUTTONS)
-        c_setting = os.read(fd,4)
+        ioctl(self.__file, RD_PBUTTONS)
+        c_setting = os.read(self.__file,4)
         c_setting = int.from_bytes(c_setting, 'little')
 
         push_buttons = [0, 0, 0, 0]
@@ -112,12 +118,13 @@ class DE2i:
             else:
                 push_buttons[3 - bit_position] = True # apertado
 
-        print("Push buttons:", push_buttons)
+        self.__c_state["push_buttons"] = push_buttons
+        
+        return push_buttons
     
-
     def get_switches(self):
-        ioctl(fd, RD_SWITCHES)
-        c_setting = os.read(fd, 4)
+        ioctl(self.__file, RD_SWITCHES)
+        c_setting = os.read(self.__file, 4)
         c_setting = int.from_bytes(c_setting, 'little')
 
         switches = [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
@@ -128,20 +135,6 @@ class DE2i:
             else:
                 switches[17 - bit_position] = False # para baixo
 
-        print("Switches:", switches)
+        self.__c_state["switches"] = switches
 
-
-board = DE2i(fd)
-board.set_display(side ="left", d1 = 1, d2 = 1, d3 = 1, d4 = 1)
-
-red_leds_dict = { 0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0, 16:0, 17:1 }
-board.set_red_led(red_leds_dict)
-
-green_leds_dict = { 0:1, 1:0, 2:1, 3:0, 4:0, 5:0, 6:0, 7:1, 8:1 }
-board.set_green_led(green_leds_dict)
-
-board.get_pbuttons()
-
-board.get_switches()
-
-os.close(fd)
+        return switches
