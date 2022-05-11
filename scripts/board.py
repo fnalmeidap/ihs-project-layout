@@ -2,17 +2,6 @@
 
 # PLACA 02
 
-import os, sys
-from fcntl import ioctl
-from ioctl_cmds import *
-
-if len(sys.argv) < 2:
-    print("Error: expected more command line arguments")
-    print("Syntax: %s </dev/device_file>"%sys.argv[0])
-    exit(1)
-
-fd = os.open(sys.argv[1], os.O_RDWR)
-
 class DE2i:
     def __init__(self, file) -> None:
         self.__file = file
@@ -129,19 +118,3 @@ class DE2i:
                 switches[17 - bit_position] = False # para baixo
 
         print("Switches:", switches)
-
-
-board = DE2i(fd)
-board.set_display(side ="left", d1 = 1, d2 = 1, d3 = 1, d4 = 1)
-
-red_leds_dict = { 0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0, 16:0, 17:1 }
-board.set_red_led(red_leds_dict)
-
-green_leds_dict = { 0:1, 1:0, 2:1, 3:0, 4:0, 5:0, 6:0, 7:1, 8:1 }
-board.set_green_led(green_leds_dict)
-
-board.get_pbuttons()
-
-board.get_switches()
-
-os.close(fd)
