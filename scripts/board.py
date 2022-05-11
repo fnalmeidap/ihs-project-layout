@@ -120,13 +120,13 @@ class DE2i:
         c_setting = os.read(fd, 4)
         c_setting = int.from_bytes(c_setting, 'little')
 
-        switches = [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
+        switches = [False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False, False]
 
         for bit_position in range(0, 18):
             if ((1 << bit_position) & c_setting) > 0:
-                switches[17 - bit_position] = False # para baixo
-            else:
                 switches[17 - bit_position] = True # para cima
+            else:
+                switches[17 - bit_position] = False # para baixo
 
         print("Switches:", switches)
 
