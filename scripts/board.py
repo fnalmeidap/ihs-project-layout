@@ -102,6 +102,8 @@ class DE2i:
     def get_pbuttons(self):
         ioctl(fd, RD_PBUTTONS)
         c_setting = os.read(fd,4)
+        c_setting = int.from_bytes(c_setting, 'little')
+        print(c_setting)
 
         push_buttons = [0, 0, 0, 0]
 
