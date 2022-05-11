@@ -2,6 +2,9 @@
 
 # PLACA 02
 
+import os, sys
+from fcntl import ioctl
+
 RD_SWITCHES = 24929
 RD_PBUTTONS = 24930
 WR_L_DISPLAY = 24931
