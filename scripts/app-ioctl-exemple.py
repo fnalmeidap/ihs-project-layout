@@ -37,7 +37,7 @@ class DE2i:
             9:0x10
         }
     
-    def set_display(side = "", first = 0: int, seocond = 0: int, third = 0: int, fourth = 0: int):
+    def set_display(side = "", first = 0, seocond = 0, third = 0, fourth = 0):
         first = hex_map[first]
         second = hex_map[second]
         third = hex_map[third]
