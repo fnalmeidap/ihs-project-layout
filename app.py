@@ -12,7 +12,7 @@ fd = os.open("/dev/mydev", os.O_RDWR)
 
 displays = {"side":"right", "d1": 1, "d2":1, "d3":9, "d4": 9}
 red_leds_dict = { 0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0, 13:0, 14:0, 15:0, 16:0, 17:0 }
-green_leds_dict = { 0:1, 1:0, 2:1, 3:0, 4:0, 5:0, 6:0, 7:1, 8:1 }
+green_leds_dict = { 0:1, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0 }
 
 ############################# GAME SETUP ##########################################
 
@@ -132,7 +132,7 @@ sc.onkey(paddlebdown, "Down")
 
 board = DE2i(fd)
 
-board.set_display("right", d1 = displays["d1"], d2 = displays["d2"], d3 = displays["d3"], d4 = displays["d4"])
+board.set_display("right", d1 = 0, d2 = 0, d3 = 0, d4 = 0)
 board.set_display("left", d1=0, d2=0, d3=0, d4=0)
 
 while True:
@@ -141,10 +141,10 @@ while True:
 		while True:
 			green_leds_dict = { 0:1, 1:1, 2:1, 3:1, 4:1, 5:1, 6:1, 7:1, 8:1 }
 			board.set_green_led(green_leds_dict)
-			time.sleep(1)
+			time.sleep(.5)
 			green_leds_dict = { 0:0, 1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0 }
 			board.set_green_led(green_leds_dict)
-			time.sleep(1)
+			time.sleep(.5)
 
 
 	# Generate vectors
