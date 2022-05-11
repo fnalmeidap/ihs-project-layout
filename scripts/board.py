@@ -127,8 +127,6 @@ board.set_red_led(red_leds_dict)
 green_leds_dict = { 0:1, 1:0, 2:1, 3:0, 4:0, 5:0, 6:0, 7:1, 8:1 }
 board.set_green_led(green_leds_dict)
 
-ioctl(fd, RD_PBUTTONS)
-red = os.read(fd, 4); # read 4 bytes and store in red var
-print("red 0x%X"%int.from_bytes(red, 'little'))
+board.get_pbuttons()
 
 os.close(fd)
